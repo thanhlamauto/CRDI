@@ -309,11 +309,22 @@ if __name__ == "__main__":
             devices=1,
         )
     else:
-        print("🖥️  TPU not available, using GPU/CPU")
-        fabric = Fabric(
-            accelerator="auto",
-            devices=1,
-        )
+        # Check for GPU
+        import torch
+        num_gpus = torch.cuda.device_count()
+        if num_gpus > 0:
+            print(f"🎮 Running on {num_gpus}x GPU")
+            fabric = Fabric(
+                accelerator="cuda",
+                devices=num_gpus,  # Use all available GPUs
+                strategy="ddp" if num_gpus > 1 else "auto",
+            )
+        else:
+            print("💻 Running on CPU")
+            fabric = Fabric(
+                accelerator="cpu",
+                devices=1,
+            )
     
     fabric.launch()
     fabric.seed_everything(2024)

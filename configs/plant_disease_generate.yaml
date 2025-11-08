@@ -1,4 +1,4 @@
-# Project settings for Plant Disease Generation
+# Project settings for Plant Disease Generation (GPU T4 Optimized)
 num_samples: 10
 num_evaluate: 5000
 model_path: "/kaggle/input/ffhq/pytorch/default/1/ffhq.pt"
@@ -12,7 +12,7 @@ experiment_gradient_path: "checkpoints/model_plant_disease.pth"
 normalization: True
 random_q_noise: False
 image_size: 256
-batch_size: 8
+batch_size: 4
 use_x_0: True
 tqdm: True
 anneal_ptb: True
