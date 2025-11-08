@@ -12,7 +12,7 @@ experiment_gradient_path: "test"
 normalization: True
 random_q_noise: False
 image_size: 256
-batch_size: 10
+batch_size: 2
 use_x_0: True
 tqdm: True
 anneal_ptb: True
@@ -31,12 +31,12 @@ num_res_blocks: 2
 resblock_updown: True
 attention_resolutions: "32,16,8"
 class_cond: False
-use_fp16: False
+use_fp16: True
 use_scale_shift_norm: True
 num_heads: 4
 num_heads_upsample: -1
 channel_mult: ""
-use_checkpoint: False
+use_checkpoint: True
 use_new_attention_order: False
 noise_schedule: "linear"
 learn_sigma: True
