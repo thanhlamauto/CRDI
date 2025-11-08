@@ -1,6 +1,6 @@
 # Project default settings
 num_samples: 10
-num_evaluate: 5000
+num_evaluate: 5
 model_path: "/kaggle/input/ffhq/pytorch/default/1/ffhq.pt"
 csv_file: "/kaggle/working/CRDI/datasets/babies_target/babies.csv"
 t_start: 5

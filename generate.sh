@@ -5,7 +5,7 @@
 
 # Default values
 CHECKPOINT=${1:-"checkpoints/model_babies.pth"}
-NUM_IMAGES=${2:-100}
+NUM_IMAGES=${2:-5}
 
 # Check if checkpoint exists
 if [ ! -f "$CHECKPOINT" ]; then
@@ -35,7 +35,10 @@ if [ $? -eq 0 ]; then
     echo "✅ Generation completed!"
     echo "📁 Generated images saved to: arr.npy"
     echo ""
-    echo "To load the images in Python:"
+    echo "To view the generated images:"
+    echo "  python view_generated.py"
+    echo ""
+    echo "Or load in Python:"
     echo "  import numpy as np"
     echo "  images = np.load('arr.npy')  # Shape: ($NUM_IMAGES, 3, 256, 256)"
 else
