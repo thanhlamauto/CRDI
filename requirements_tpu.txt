@@ -1,3 +1,7 @@
+# Requirements for Kaggle TPU environment
+# Note: torch, torchvision, and torch-xla are pre-installed on Kaggle TPU
+# Only install additional dependencies
+
 blobfile==2.1.1
 ipython==8.12.3
 lightning==2.4.0
@@ -17,6 +21,5 @@ scipy==1.13.1
 setuptools==69.0.3
 scikit-image==0.24.0
 tensorflow==2.17.0
-torch>=2.0.0
-torchvision>=0.15.0
 tqdm==4.66.1
+

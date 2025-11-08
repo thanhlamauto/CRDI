@@ -4,6 +4,18 @@ echo "🌿 Setting up Plant Disease Few-Shot Learning"
 echo "=============================================="
 echo ""
 
+# Check if running on TPU
+if python -c "import torch_xla.core.xla_model as xm; xm.xla_device()" 2>/dev/null; then
+    echo "✅ TPU detected - using pre-installed PyTorch/XLA"
+    echo "📦 Installing additional dependencies..."
+    pip install -r requirements_tpu.txt
+else
+    echo "🖥️  TPU not detected - installing full requirements"
+    pip install -r requirements.txt
+fi
+
+echo ""
+
 # Step 1: Prepare dataset
 echo "📦 Step 1: Preparing dataset (sampling 10 images + creating FID reference)..."
 python scripts/prepare_plant_dataset.py
