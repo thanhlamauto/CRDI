@@ -7,8 +7,8 @@ t_start: 5
 t_end: 15
 num_gradient: 1
 print_config: True
-category: "default"
-experiment_gradient_path: "test"
+category: "babies"
+experiment_gradient_path: "checkpoints/model_babies.pth"
 normalization: True
 random_q_noise: False
 image_size: 256

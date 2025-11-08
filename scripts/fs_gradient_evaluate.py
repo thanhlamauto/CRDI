@@ -71,7 +71,11 @@ def create_argparser() -> argparse.ArgumentParser:
 
 def postprocess_args(args: Namespace) -> None:
     update_args_by_category(args)
-    assert os.path.exists(args.experiment_gradient_path)
+    if not os.path.exists(args.experiment_gradient_path):
+        raise FileNotFoundError(
+            f"Gradient checkpoint not found: {args.experiment_gradient_path}\n"
+            f"Please train gradients first using: python scripts/fs_gradient_train.py"
+        )
 
 
 def get_dataloader(args: Namespace) -> DataLoader:
