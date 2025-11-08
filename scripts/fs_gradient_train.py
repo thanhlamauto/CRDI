@@ -290,17 +290,25 @@ def main() -> None:
 
 if __name__ == "__main__":
     # Auto-detect accelerator (TPU, GPU, or CPU)
-    import torch_xla.core.xla_model as xm
-    
-    # Check if running on TPU
+    # Try TPU first
+    tpu_available = False
     try:
+        import torch_xla.core.xla_model as xm
         device = xm.xla_device()
         print(f"🚀 Running on TPU: {device}")
-        fabric = Fabric(
-            accelerator="tpu",
-            devices="auto",
-        )
+        tpu_available = True
     except:
+        pass
+    
+    if tpu_available:
+        # Use CPU accelerator for Lightning but XLA device for actual computation
+        # This avoids Lightning's TPU accelerator compatibility issues
+        print("⚙️  Using Lightning with XLA backend")
+        fabric = Fabric(
+            accelerator="cpu",  # Use CPU accelerator in Lightning
+            devices=1,
+        )
+    else:
         print("🖥️  TPU not available, using GPU/CPU")
         fabric = Fabric(
             accelerator="auto",
