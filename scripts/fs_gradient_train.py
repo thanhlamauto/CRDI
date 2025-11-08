@@ -49,6 +49,12 @@ def create_argparser() -> argparse.ArgumentParser:
     defaults = load_config(args.config)
 
     parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--config",
+        type=str,
+        default="configs/ffhq_train.yaml",
+        help="Path to the YAML config file",
+    )
     add_dict_to_argparser(parser, defaults)
     modify_list_arguments(parser)
     return parser
