@@ -218,18 +218,27 @@ def main() -> None:
     arr = np.concatenate(all_images, axis=0)
     arr = arr[: args.num_evaluate]
     np.save("arr.npy", arr)
-
-    evaluator = Evaluator(
-        args,
-        torch.from_numpy(arr),
-        f"/path/to/project/datasets/fid_npz/{args.category}.npz",
-        args.lpips_cluster_size,
-    )
-
-    fid_score = evaluator.calc_fid()
-    print(f"FID: {fid_score}")
-    intra_lpips = evaluator.calc_intra_lpips()
-    print("Intra-LPIPS: ", intra_lpips)
+    print(f"\n✅ Generated {len(arr)} images and saved to arr.npy")
+    print(f"📊 Shape: {arr.shape}")
+    
+    # Optional: Calculate metrics if reference dataset exists
+    reference_path = f"datasets/fid_npz/{args.category}.npz"
+    if os.path.exists(reference_path):
+        print(f"\n📈 Calculating metrics using reference: {reference_path}")
+        evaluator = Evaluator(
+            args,
+            torch.from_numpy(arr),
+            reference_path,
+            args.lpips_cluster_size,
+        )
+        fid_score = evaluator.calc_fid()
+        print(f"FID: {fid_score}")
+        intra_lpips = evaluator.calc_intra_lpips()
+        print("Intra-LPIPS: ", intra_lpips)
+    else:
+        print(f"\n⚠️  Skipping FID/LPIPS evaluation (reference dataset not found)")
+        print(f"   To enable metrics, place reference dataset at: {reference_path}")
+        print(f"\n💡 Tip: View generated images with: python view_generated.py")
 
 
 if __name__ == "__main__":
