@@ -16,6 +16,8 @@ CATEGORIES_TO_CSV_FILES = {
     "sunglasses": "datasets/sunglasses_target/sunglasses.csv",
     "sunglassesone": "datasets/sunglassesone_target/sunglassesone.csv",
     "sunglassesfive": "datasets/sunglassesfive_target/sunglassesfive.csv",
+    "plant_disease": "/kaggle/working/CRDI/datasets/plant_disease_target/plant_disease.csv",
+    "default": "datasets/babies_target/babies.csv",  # fallback
 }
 
 
@@ -62,8 +64,15 @@ def get_timestep_lists(
 
 
 def update_args_by_category(args: Namespace) -> None:
+    # Only update csv_file if it's a relative path (not already absolute)
+    if hasattr(args, 'csv_file') and os.path.isabs(args.csv_file):
+        # Already has absolute path from config, don't override
+        return
+    
     if args.category not in CATEGORIES_TO_CSV_FILES:
-        raise NotImplementedError
+        print(f"Warning: Category '{args.category}' not in predefined categories. Using csv_file from config.")
+        return
+    
     args.csv_file = CATEGORIES_TO_CSV_FILES[args.category]
 
 
