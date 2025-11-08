@@ -119,9 +119,11 @@ def construct_x_t(
     args: argparse.Namespace,
     img: torch.Tensor,
     diffusion: SpacedDiffusion,
-    device: Union[str, torch.device] = "cuda",
+    device: Optional[Union[str, torch.device]] = None,
     t_des: Optional[Union[int, float]] = None,
 ) -> torch.Tensor:
+    if device is None:
+        device = img.device
     t = torch.tensor(t_des, device=device).repeat(img.shape[0])
     return diffusion.q_sample(
         img, t, noise=q_sample_noise(img, args.random_q_noise)
@@ -287,10 +289,24 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    fabric = Fabric(
-        accelerator="gpu",
-        strategy=ddp.DDPStrategy(find_unused_parameters=False),
-    )
+    # Auto-detect accelerator (TPU, GPU, or CPU)
+    import torch_xla.core.xla_model as xm
+    
+    # Check if running on TPU
+    try:
+        device = xm.xla_device()
+        print(f"🚀 Running on TPU: {device}")
+        fabric = Fabric(
+            accelerator="tpu",
+            devices="auto",
+        )
+    except:
+        print("🖥️  TPU not available, using GPU/CPU")
+        fabric = Fabric(
+            accelerator="auto",
+            devices=1,
+        )
+    
     fabric.launch()
     fabric.seed_everything(2024)
 

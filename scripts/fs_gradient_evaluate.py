@@ -137,13 +137,15 @@ def generate_samples(
     while len(all_images) < args.num_evaluate:
         for batch in data_loader:
             x_0, y = batch
+            x_0 = x_0.to(device)
+            y = y.to(device)
             if args.normalization:
                 x_0 = x_0 * 2 - 1
-            timestep = torch.tensor(args.t_end - 1).to(x_0.device)
+            timestep = torch.tensor(args.t_end - 1).to(device)
             x_t = q_sample(
-                x_0.cuda(),
-                timestep.cuda(),
-                noise=q_sample_noise(x_0.cuda(), args.random_q_noise),
+                x_0,
+                timestep,
+                noise=q_sample_noise(x_0, args.random_q_noise),
             )
             model_kwargs = {}
             cond_fn_label = partial(cond_fn, label=y)
@@ -172,7 +174,14 @@ def main() -> None:
     postprocess_args(args)
     print_config_tree(vars(args)) if args.print_config else None
 
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    # Auto-detect device (TPU, GPU, or CPU)
+    try:
+        import torch_xla.core.xla_model as xm
+        device = xm.xla_device()
+        print(f"🚀 Running on TPU: {device}")
+    except:
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        print(f"🖥️  Running on: {device}")
 
     model, diffusion = get_model_and_diffusion(args, device)
 
