@@ -1,24 +1,24 @@
 # Requirements for Kaggle TPU environment
-# Note: torch, torchvision, and torch-xla are pre-installed on Kaggle TPU
-# Only install additional dependencies
+# Note: torch, torchvision, torch-xla, jax, numpy, tensorflow are pre-installed
+# Using compatible versions with Kaggle's environment
 
 blobfile==2.1.1
-ipython==8.12.3
-lightning==2.4.0
-lmdb==1.4.1
-lpips==0.1.4
-numpy==1.26.4
-pandas==2.2.2
-Pillow==10.4.0
-piq==0.8.0
-pytorch_msssim==1.0.0
-PyYAML==6.0.1
-Requests==2.32.3
-rich==13.7.1
-scikit_learn==1.5.1
-scipy==1.13.1
-setuptools==69.0.3
-scikit-image==0.24.0
-tensorflow==2.17.0
-tqdm==4.66.1
+ipython>=8.12.0
+lightning>=2.4.0
+lmdb>=1.4.0
+lpips>=0.1.4
+# numpy - use pre-installed (>=2.0 for JAX/TPU)
+pandas>=2.2.0
+Pillow>=10.0.0
+piq>=0.8.0
+pytorch_msssim>=1.0.0
+PyYAML>=6.0.0
+Requests>=2.32.0
+rich>=13.7.0
+scikit-learn>=1.5.0
+# scipy - compatible with numpy 2.0
+# setuptools - use pre-installed
+scikit-image>=0.24.0
+# tensorflow - use pre-installed
+# tqdm - use pre-installed (>=4.66.3)
 
