@@ -219,7 +219,9 @@ def train_step(
     cond_fn_label = partial(cond_fn, label=y, gradient_id=gradient_id)
     for t in pbar:
         pbar.set_description(f"Steps {t.item():02d}      ")
-        t = t.unsqueeze(dim=0).repeat(args.batch_size)
+        # Use actual batch size from data (important for DDP)
+        actual_batch_size = x_0.shape[0]
+        t = t.unsqueeze(dim=0).repeat(actual_batch_size)
         assert t[0].item() < (args.t_end)
         x_t = construct_x_t(
             args,
