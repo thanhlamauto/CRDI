@@ -2,7 +2,7 @@
 num_samples: 10
 num_evaluate: 5000
 model_path: "/kaggle/input/ffhq/pytorch/default/1/ffhq.pt"
-csv_file: "/Users/nguyenthanhlam/CRDI/datasets/babies_target/babies.csv"
+csv_file: "/kaggle/working/CRDI/datasets/babies_target/babies.csv"
 t_start: 5
 t_end: 15
 num_gradient: 1
