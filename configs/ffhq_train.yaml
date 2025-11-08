@@ -1,8 +1,8 @@
 # Project default settings
 num_samples: 10
 epochs: 50
-model_path: "checkpoints/ddpm/ffhq.pt"
-csv_file: "datasets/babies_target/babies.csv"
+model_path: "/kaggle/input/ffhq/pytorch/default/1/ffhq.pt"
+csv_file: "/Users/nguyenthanhlam/CRDI/datasets/babies_target/babies.csv"
 t_start: 5
 t_end: 15
 num_gradient: 1
