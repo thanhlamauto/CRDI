@@ -141,7 +141,9 @@ def generate_samples(
             y = y.to(device)
             if args.normalization:
                 x_0 = x_0 * 2 - 1
-            timestep = torch.tensor(args.t_end - 1).to(device)
+            # Create timestep tensor with correct batch size
+            actual_batch_size = x_0.shape[0]
+            timestep = torch.full((actual_batch_size,), args.t_end - 1, device=device, dtype=torch.long)
             x_t = q_sample(
                 x_0,
                 timestep,

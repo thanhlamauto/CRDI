@@ -8,7 +8,7 @@ t_end: 15
 num_gradient: 1
 print_config: True
 category: "plant_disease"
-experiment_gradient_path: "checkpoints/model_plant_disease.pth"
+experiment_gradient_path: "/kaggle/input/plant-g/pytorch/default/1/model_plant_disease.pth"
 normalization: True
 random_q_noise: False
 image_size: 256
