@@ -315,11 +315,11 @@ if __name__ == "__main__":
         import torch
         num_gpus = torch.cuda.device_count()
         if num_gpus > 0:
-            print(f"🎮 Running on {num_gpus}x GPU")
+            print(f"🎮 Detected {num_gpus}x GPU, using 1 GPU for stability")
             fabric = Fabric(
                 accelerator="cuda",
-                devices=num_gpus,  # Use all available GPUs
-                strategy="ddp" if num_gpus > 1 else "auto",
+                devices=1,  # Use single GPU to avoid DDP batch issues
+                strategy="auto",
             )
         else:
             print("💻 Running on CPU")

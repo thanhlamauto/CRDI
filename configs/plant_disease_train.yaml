@@ -1,4 +1,4 @@
-# Project settings for Plant Disease Dataset (GPU T4 Optimized)
+# Project settings for Plant Disease Dataset (GPU T4 Optimized - Single GPU)
 num_samples: 10
 epochs: 50
 model_path: "/kaggle/input/ffhq/pytorch/default/1/ffhq.pt"
@@ -11,7 +11,7 @@ category: "plant_disease"
 normalization: True
 random_q_noise: False
 image_size: 256
-batch_size: 2
+batch_size: 4
 penalty_weight: 1
 learning_rate: 0.05
 num_workers: 2
