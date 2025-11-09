@@ -1,6 +1,6 @@
 # Project settings for Plant Disease Generation (GPU T4 Optimized)
 num_samples: 10
-num_evaluate: 5000
+num_evaluate: 1000
 model_path: "/kaggle/input/ffhq/pytorch/default/1/ffhq.pt"
 csv_file: "/kaggle/working/CRDI/datasets/plant_disease_target/plant_disease.csv"
 t_start: 5
