@@ -151,9 +151,10 @@ def generate_samples(
             )
             model_kwargs = {}
             cond_fn_label = partial(cond_fn, label=y)
+            # Use actual batch size from data (important for varying batch sizes)
             sample = sample_fn(
                 model_fn,
-                (args.batch_size, 3, args.image_size, args.image_size),
+                (actual_batch_size, 3, args.image_size, args.image_size),
                 clip_denoised=args.clip_denoised,
                 model_kwargs=model_kwargs,
                 cond_fn=cond_fn_label,
@@ -165,7 +166,7 @@ def generate_samples(
                 sample = (sample + 1) / 2
             sample = sample.contiguous()
             all_images.extend([[s.cpu().numpy()] for s in sample])
-        pbar.update(args.batch_size)
+        pbar.update(actual_batch_size)
 
     pbar.close()
     return all_images
