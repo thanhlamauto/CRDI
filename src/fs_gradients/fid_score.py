@@ -492,7 +492,40 @@ def calculate_activation_statistics(
 def compute_statistics_of_path(path):
     if path.endswith(".npz"):
         with np.load(path) as f:
-            m, s = f["mu"][:], f["sigma"][:]
+            # Check if precomputed statistics exist
+            if "mu" in f and "sigma" in f:
+                m, s = f["mu"][:], f["sigma"][:]
+            elif "images" in f:
+                # Compute statistics from raw images
+                print("📊 Computing FID statistics from images in reference dataset...")
+                images = f["images"]
+                # Need to compute activations and statistics
+                # For now, convert to torch tensor
+                import torch
+                device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+                
+                # Load InceptionV3 model for FID
+                from .fid_score import get_activations as compute_acts
+                block_idx = InceptionV3.BLOCK_INDEX_BY_DIM[2048]
+                model = InceptionV3([block_idx]).to(device)
+                model.eval()
+                
+                # Compute activations in batches
+                batch_size = 50
+                activations = []
+                for i in range(0, len(images), batch_size):
+                    batch = torch.from_numpy(images[i:i+batch_size]).to(device)
+                    with torch.no_grad():
+                        pred = model(batch)[0]
+                    activations.append(pred.cpu().numpy())
+                
+                activations = np.concatenate(activations, axis=0)
+                m = np.mean(activations, axis=0)
+                s = np.cov(activations, rowvar=False)
+                
+                print(f"✅ Computed statistics: mean shape {m.shape}, cov shape {s.shape}")
+            else:
+                raise KeyError(f"NPZ file must contain either 'mu'/'sigma' or 'images'")
     else:
         raise NotImplementedError
 
